@@ -1,0 +1,469 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"><title>Python 多线程 | Pluto</title><meta name="description" content="Python 多线程"><meta name="keywords" content="python,_thread库,threading库,queue库,GIL全局解释器锁,队列,线程锁,多线程"><meta name="author" content="Pluto"><meta name="copyright" content="Pluto"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/bitbug_favicon.ico"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin><link rel="preconnect" href="//busuanzi.ibruce.info"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Python 多线程"><meta name="twitter:description" content="Python 多线程"><meta name="twitter:image" content="http://image.tooltool.club/v2-6b6a81f7b9f65ac8120691c0865a2e88_r.jpg"><meta property="og:type" content="article"><meta property="og:title" content="Python 多线程"><meta property="og:url" content="https://blog.plutozone.site/2020/07/30/Python-%E5%A4%9A%E7%BA%BF%E7%A8%8B/"><meta property="og:site_name" content="Pluto"><meta property="og:description" content="Python 多线程"><meta property="og:image" content="http://image.tooltool.club/v2-6b6a81f7b9f65ac8120691c0865a2e88_r.jpg"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>const autoChangeMode = 'false'
+var t = Cookies.get("theme");
+if (autoChangeMode == '1'){
+const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+const isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+const isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+if (t === undefined){
+  if (isLightMode) activateLightMode()
+  else if (isDarkMode) activateDarkMode()
+  else if (isNotSpecified || hasNoSupport){
+    console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+    now = new Date();
+    hour = now.getHours();
+    isNight = hour < 6 || hour >= 18
+    isNight ? activateDarkMode() : activateLightMode()
+}
+} else if (t == 'light') activateLightMode()
+else activateDarkMode()
+
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="canonical" href="https://blog.plutozone.site/2020/07/30/Python-%E5%A4%9A%E7%BA%BF%E7%A8%8B/"><link rel="prev" title="好用的图床上传工具-Picgo" href="https://blog.plutozone.site/2020/07/31/%E5%A5%BD%E7%94%A8%E7%9A%84%E5%9B%BE%E5%BA%8A%E4%B8%8A%E4%BC%A0%E5%B7%A5%E5%85%B7-Picgo/"><link rel="next" title="Python 爬取山东大学医学题库" href="https://blog.plutozone.site/2020/07/29/Python-%E7%88%AC%E5%8F%96%E5%B1%B1%E4%B8%9C%E5%A4%A7%E5%AD%A6%E5%8C%BB%E5%AD%A6%E9%A2%98%E5%BA%93/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://http://a9x01t.coding-pages.com//","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    title: 'Snackbar.bookmark.title',
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: true,
+  fancybox: true,
+  Snackbar: {"bookmark":{"title":"Snackbar.bookmark.title","message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#2d3035","position":"bottom-left"},
+  baiduPush: false,
+  isHome: false,
+  isPost: true
+  
+}</script><meta name="generator" content="Hexo 4.2.0"></head><body><header> <div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">Pluto</a></span><span class="toggle-menu pull_right close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="http://s.cpman.cn/" target="_blank" rel="noopener"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="http://www.wazitv.com/" target="_blank" rel="noopener"><i class="fa-fw fa fa-film"></i><span> 电影</span></a></div><div class="menus_item"><a class="site-page" href="https://www.pexels.com/" target="_blank" rel="noopener"><i class="fa-fw fa fa-picture-o"></i><span> 照片</span></a></div></div></span><span class="pull_right" id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></span></div></header><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="https://q4.qlogo.cn/g?b=qq&amp;nk=1559492576&amp;s=140" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">36</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">51</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">18</div></a></div></div></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="http://s.cpman.cn/" target="_blank" rel="noopener"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="http://www.wazitv.com/" target="_blank" rel="noopener"><i class="fa-fw fa fa-film"></i><span> 电影</span></a></div><div class="menus_item"><a class="site-page" href="https://www.pexels.com/" target="_blank" rel="noopener"><i class="fa-fw fa fa-picture-o"></i><span> 照片</span></a></div></div></div></div><div id="body-wrap"><main id="content-outer"><div id="top-container" style="background-image: url(http://image.tooltool.club/v2-6b6a81f7b9f65ac8120691c0865a2e88_r.jpg)"><div id="post-info"><div id="post-title"><div class="posttitle">Python 多线程</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 发表于 2020-07-30<span class="post-meta__separator">|</span><i class="fa fa-history fa-fw" aria-hidden="true"></i> 更新于 2020-07-31</time><span class="post-meta__separator">|</span><span><i class="fa fa-inbox post-meta__icon fa-fw" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Python/">Python</a><i class="fa fa-angle-right fa-fw" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon fa-fw" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Python/%E9%AB%98%E7%BA%A7%E8%BF%9B%E9%98%B6/">高级进阶</a></span><div class="post-meta-wordcount"><i class="fa fa-file-word-o post-meta__icon fa-fw" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">6.1k</span><span class="post-meta__separator">|</span><i class="fa fa-clock-o post-meta__icon fa-fw" aria-hidden="true"></i><span>阅读时长: 24 分钟</span><div class="post-meta-pv-cv"><span class="post-meta__separator">|</span><span><i class="fa fa-eye post-meta__icon fa-fw" aria-hidden="true"> </i>阅读量:</span><span id="busuanzi_value_page_pv"></span></div></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="Python-多线程"><a href="#Python-多线程" class="headerlink" title="Python 多线程"></a>Python 多线程</h1><h2 id="一、线程的介绍"><a href="#一、线程的介绍" class="headerlink" title="一、线程的介绍"></a>一、线程的介绍</h2><h3 id="1、线程的定义"><a href="#1、线程的定义" class="headerlink" title="1、线程的定义"></a>1、线程的定义</h3><p>​        线程（Thread）也叫轻量级进程，是操作系统能够进行运算调度的最小单位，它被包涵在进程之中，是进程中的实际运作单位。线程自己不拥有系统资源，只拥有一点儿在运行中必不可少的资源，但它可与同属一个进程的其它线程共享进程所拥有的全部资源。一个线程可以创建和撤消另一个线程，同一进程中的多个线程之间可以并发执行。</p>
+<p>​        线程在执行过程中与进程还是有区别的。每个独立的进程有一个程序运行的入口、顺序执行序列和程序的出口。但是线程不能够独立执行，必须依存在应用程序中，由应用程序提供多个线程执行控制，每个线程都有他自己的一组CPU寄存器，称为线程的上下文，该上下文反映了线程上次运行该线程的CPU寄存器的状态。指令指针和堆栈指针寄存器是线程上下文中两个最重要的寄存器，线程总是在进程得到上下文中运行的，这些地址都用于标志拥有线程的进程地址空间中的内存。</p>
+<h3 id="2、多线程的优点"><a href="#2、多线程的优点" class="headerlink" title="2、多线程的优点"></a>2、多线程的优点</h3><p>线程在程序中是独立的、并发的执行流。与分隔的进程相比，进程中线程之间的隔离程度要小，它们共享内存、文件句柄和其他进程应有的状态。</p>
+<p>因为线程的划分尺度小于进程，使得多线程程序的并发性高。进程在执行过程中拥有独立的内存单元，而多个线程共享内存，从而极大地提高了程序的运行效率。</p>
+<p>线程比进程具有更高的性能，这是由于同一个进程中的线程都有共性多个线程共享同一个进程的虚拟空间。线程共享的环境包括进程代码段、进程的公有数据等，利用这些共享的数据，线程之间很容易实现通信。</p>
+<p>操作系统在创建进程时，必须为该进程分配独立的内存空间，并分配大量的相关资源，但创建线程则简单得多。因此，使用多线程来实现并发比使用多进程的性能要高得多。</p>
+<p>总结起来，使用多线程编程具有如下几个优点：</p>
+<ul>
+<li>进程之间不能共享内存，但线程之间共享内存非常容易。</li>
+<li>操作系统在创建进程时，需要为该进程重新分配系统资源，但创建线程的代价则小得多。因此，使用多线程来实现多任务并发执行比使用多进程的效率高。</li>
+<li>Python 语言内置了多线程功能支持，而不是单纯地作为底层操作系统的调度方式，从而简化了 Python 的多线程编程。</li>
+</ul>
+<h2 id="二、线程的实现"><a href="#二、线程的实现" class="headerlink" title="二、线程的实现"></a>二、线程的实现</h2><h3 id="1、-thread模块"><a href="#1、-thread模块" class="headerlink" title="1、_thread模块"></a>1、_thread模块</h3><p>在<code>_thread</code>模块中通过<code>start_new_thread()</code>函数来产生新线程，同时这也是<code>_thread</code>模块的核心函数，使用方法如下：</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">python</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">_thread.start_new_thread(function, args, kwargs)</span><br></pre></td></tr></table></figure></div>
+
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>function</td>
+<td>线程函数</td>
+</tr>
+<tr>
+<td>args</td>
+<td>传递给线程函数的参数,他必须是个tuple类型</td>
+</tr>
+<tr>
+<td>kwargs</td>
+<td>可选参数</td>
+</tr>
+</tbody></table>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">python</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> _thread</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 为线程定义一个函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_time</span><span class="params">(threadName, sleep_time, times)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> range(times):</span><br><span class="line">        time.sleep(sleep_time)</span><br><span class="line">        print(<span class="string">f'<span class="subst">&#123;threadName&#125;</span>: <span class="subst">&#123;time.ctime(time.time())&#125;</span>'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建两个线程</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    _thread.start_new_thread(print_time, (<span class="string">"Thread-1"</span>, <span class="number">1</span>, <span class="number">6</span>))</span><br><span class="line">    _thread.start_new_thread(print_time, (<span class="string">"Thread-2"</span>, <span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    print(<span class="string">"Error: 无法启动线程"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure></div>
+
+
+<pre><code>Thread-1: Thu Jul 30 22:49:47 2020
+Thread-2: Thu Jul 30 22:49:48 2020
+Thread-1: Thu Jul 30 22:49:48 2020
+Thread-1: Thu Jul 30 22:49:49 2020
+Thread-2: Thu Jul 30 22:49:50 2020
+Thread-1: Thu Jul 30 22:49:50 2020
+Thread-1: Thu Jul 30 22:49:51 2020
+Thread-2: Thu Jul 30 22:49:52 2020
+Thread-1: Thu Jul 30 22:49:52 2020</code></pre><blockquote>
+<p>此时的while 1: pass是不可以省略的，因为while具有阻断主线程的作用，当while条件成立是将会执行完之前的线程，如果去掉的话啊，可能会导致上述线程无法执行。</p>
+<p>不过这种方式已经很落后了，所以我比较建议使用threading模块。虽然标准库给出了 _thread 和 threading 提供对线程的支持，但是_thread 提供了低级别的、原始的线程以及一个简单的锁，它相比于 threading 模块的功能还是比较有限的。</p>
+</blockquote>
+<h4 id="常用线程函数"><a href="#常用线程函数" class="headerlink" title="常用线程函数"></a>常用线程函数</h4><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>start_new_thread(function,args,kwargs=None)</td>
+<td>派生一个新的线程，使用给定的args和可选的kwargs来执行function</td>
+</tr>
+<tr>
+<td>allocate_lock()</td>
+<td>分配LockType对象</td>
+</tr>
+<tr>
+<td>exit()</td>
+<td>退出线程指令</td>
+</tr>
+</tbody></table>
+<h4 id="LockType锁对象的方法"><a href="#LockType锁对象的方法" class="headerlink" title="LockType锁对象的方法"></a>LockType锁对象的方法</h4><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>acquire(wait=None)</td>
+<td>尝试获取锁对象</td>
+</tr>
+<tr>
+<td>locked()</td>
+<td>如果获取了锁对象则返回True，否则返回False</td>
+</tr>
+<tr>
+<td>release()</td>
+<td>释放锁</td>
+</tr>
+</tbody></table>
+<h3 id="2、threading模块"><a href="#2、threading模块" class="headerlink" title="2、threading模块"></a>2、threading模块</h3><blockquote>
+<p>在本博客后续的讲解中，我们将会更多地使用Treading模块来进行讲解。</p>
+</blockquote>
+<h4 id="threading方法"><a href="#threading方法" class="headerlink" title="threading方法"></a>threading方法</h4><p>threading 模块除了包含 _thread 模块中的所有方法外，还提供的其他方法：</p>
+<ul>
+<li>threading.currentThread(): 返回当前的线程变量。</li>
+<li>threading.enumerate(): 返回一个包含正在运行的线程的list。正在运行指线程启动后、结束前，不包括启动前和终止后的线程。</li>
+<li>threading.activeCount(): 返回正在运行的线程数量，与len(threading.enumerate())有相同的结果。</li>
+</ul>
+<h4 id="Thread类对象"><a href="#Thread类对象" class="headerlink" title="Thread类对象"></a>Thread类对象</h4><p>除了使用方法外，线程模块同样提供了Thread类来处理线程，Thread类提供了以下方法：</p>
+<ul>
+<li><p><strong>run():</strong> 用以表示线程活动的方法。</p>
+</li>
+<li><p><strong>start():</strong> 启动线程活动。</p>
+</li>
+<li><p><strong>join([timeout]):</strong> 等待至线程中止。这阻塞调用线程直至线程的join() 方法被调用中止-正常退出或者抛出未处理的异常-或者是可选的超时发生。</p>
+</li>
+<li><p><strong>isAlive():</strong> 返回线程是否活动的。</p>
+</li>
+<li><p><strong>getName():</strong> 返回线程名。</p>
+</li>
+<li><p><strong>setName():</strong> 设置线程名。</p>
+</li>
+</ul>
+<h4 id="普通创建方式"><a href="#普通创建方式" class="headerlink" title="普通创建方式"></a>普通创建方式</h4><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">python</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 为线程定义一个函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_time</span><span class="params">(threadName, sleep_time, times)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> range(times):</span><br><span class="line">        time.sleep(sleep_time)</span><br><span class="line">        print(<span class="string">f'<span class="subst">&#123;threadName&#125;</span>: <span class="subst">&#123;time.ctime(time.time())&#125;</span>'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建两个新线程</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    thread1 = threading.Thread(target=print_time, args=(<span class="string">"Thread-1"</span>, <span class="number">1</span>, <span class="number">6</span>))</span><br><span class="line">    thread2 = threading.Thread(target=print_time, args=(<span class="string">"Thread-2"</span>, <span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line">    thread1.start()</span><br><span class="line">    thread2.start()</span><br><span class="line">    print(<span class="string">"Main thread end."</span>)</span><br></pre></td></tr></table></figure></div>
+
+
+<pre><code>Main thread end.
+Thread-1: Fri Jul 31 12:28:22 2020
+Thread-2: Fri Jul 31 12:28:23 2020
+Thread-1: Fri Jul 31 12:28:23 2020
+Thread-1: Fri Jul 31 12:28:24 2020
+Thread-2: Fri Jul 31 12:28:25 2020
+Thread-1: Fri Jul 31 12:28:25 2020
+Thread-1: Fri Jul 31 12:28:26 2020
+Thread-2: Fri Jul 31 12:28:27 2020
+Thread-1: Fri Jul 31 12:28:27 2020</code></pre><h4 id="自定义线程"><a href="#自定义线程" class="headerlink" title="自定义线程"></a>自定义线程</h4><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">python</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myThread</span><span class="params">(threading.Thread)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, threadName, sleep_time, times)</span>:</span></span><br><span class="line">        threading.Thread.__init__(self)</span><br><span class="line">        self.threadName = threadName</span><br><span class="line">        self.sleep_time = sleep_time</span><br><span class="line">        self.times = times</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(self.threadName + <span class="string">" start."</span>)</span><br><span class="line">        print_time(self.threadName, self.sleep_time, self.times)</span><br><span class="line">        print(self.threadName + <span class="string">" end."</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_time</span><span class="params">(threadName, sleep_time, times)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> range(times):</span><br><span class="line">        time.sleep(sleep_time)</span><br><span class="line">        print(<span class="string">f'<span class="subst">&#123;threadName&#125;</span>: <span class="subst">&#123;time.ctime(time.time())&#125;</span>'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 创建新线程</span></span><br><span class="line">    thread1 = myThread(<span class="string">"Thread-1"</span>, <span class="number">1</span>, <span class="number">6</span>)</span><br><span class="line">    thread2 = myThread(<span class="string">"Thread-2"</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">    <span class="comment"># 开启新线程</span></span><br><span class="line">    thread1.start()</span><br><span class="line">    thread2.start()</span><br><span class="line">    print(<span class="string">"Main thread end."</span>)</span><br></pre></td></tr></table></figure></div>
+
+<pre><code>Thread-1 start.
+Thread-2 start.
+Main thread end.
+Thread-1: Fri Jul 31 12:33:40 2020
+Thread-2: Fri Jul 31 12:33:41 2020
+Thread-1: Fri Jul 31 12:33:41 2020
+Thread-1: Fri Jul 31 12:33:42 2020
+Thread-1: Fri Jul 31 12:33:43 2020
+Thread-2: Fri Jul 31 12:33:43 2020
+Thread-1: Fri Jul 31 12:33:44 2020
+Thread-2: Fri Jul 31 12:33:45 2020
+Thread-2 end.
+Thread-1: Fri Jul 31 12:33:45 2020
+Thread-1 end.</code></pre><h4 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h4><p>使用setDaemon(True)把所有的子线程都变成了主线程的守护线程，因此当主进程结束后，子线程也会随之结束，所以当主线程结束后，整个程序就退出了。</p>
+<blockquote>
+<p>此时我们很容易发现，设置守护线程之后，当主线程结束时，子线程也将立即结束，不再执行。</p>
+</blockquote>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">python</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 为线程定义一个函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_time</span><span class="params">(threadName, sleep_time, times)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> range(times):</span><br><span class="line">        time.sleep(sleep_time)</span><br><span class="line">        print(<span class="string">f'<span class="subst">&#123;threadName&#125;</span>: <span class="subst">&#123;time.ctime(time.time())&#125;</span>'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 创建两个新线程</span></span><br><span class="line">    thread1 = threading.Thread(target=print_time, args=(<span class="string">"Thread-1"</span>, <span class="number">1</span>, <span class="number">6</span>))</span><br><span class="line">    thread2 = threading.Thread(target=print_time, args=(<span class="string">"Thread-2"</span>, <span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line">    <span class="comment"># 把子进程设置为守护线程，必须在start()之前设置</span></span><br><span class="line">    thread1.setDaemon(<span class="literal">True</span>)</span><br><span class="line">    thread2.setDaemon(<span class="literal">True</span>)</span><br><span class="line">    thread1.start()</span><br><span class="line">    thread2.start()</span><br><span class="line">    print(<span class="string">"Main thread end."</span>)</span><br></pre></td></tr></table></figure></div>
+
+<pre><code>Main thread end.</code></pre><h4 id="join-方法"><a href="#join-方法" class="headerlink" title="join() 方法"></a>join() 方法</h4><p>为了让守护线程执行结束之后，主线程再结束，我们可以使用join方法，让主线程等待子线程执行完成后再结束。</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">python</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 为线程定义一个函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_time</span><span class="params">(threadName, sleep_time, times)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> range(times):</span><br><span class="line">        time.sleep(sleep_time)</span><br><span class="line">        print(<span class="string">f'<span class="subst">&#123;threadName&#125;</span>: <span class="subst">&#123;time.ctime(time.time())&#125;</span>'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 创建两个新线程</span></span><br><span class="line">    thread1 = threading.Thread(target=print_time, args=(<span class="string">"Thread-1"</span>, <span class="number">1</span>, <span class="number">6</span>))</span><br><span class="line">    thread2 = threading.Thread(target=print_time, args=(<span class="string">"Thread-2"</span>, <span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line">    <span class="comment"># 把子进程设置为守护线程，必须在start()之前设置</span></span><br><span class="line">    thread1.setDaemon(<span class="literal">True</span>)</span><br><span class="line">    thread2.setDaemon(<span class="literal">True</span>)</span><br><span class="line">    thread1.start()</span><br><span class="line">    thread2.start()</span><br><span class="line">    thread1.join()</span><br><span class="line">    thread2.join()</span><br><span class="line">    print(<span class="string">"Main thread end."</span>)</span><br></pre></td></tr></table></figure></div>
+
+<pre><code>Thread-1: Fri Jul 31 13:28:48 2020
+Thread-2: Fri Jul 31 13:28:49 2020
+Thread-1: Fri Jul 31 13:28:49 2020
+Thread-1: Fri Jul 31 13:28:50 2020
+Thread-2: Fri Jul 31 13:28:51 2020
+Thread-1: Fri Jul 31 13:28:51 2020
+Thread-1: Fri Jul 31 13:28:52 2020
+Thread-2: Fri Jul 31 13:28:53 2020
+Thread-1: Fri Jul 31 13:28:53 2020
+Main thread end.</code></pre><h2 id="三、线程同步"><a href="#三、线程同步" class="headerlink" title="三、线程同步"></a>三、线程同步</h2><h3 id="1、多线程共享全局变量"><a href="#1、多线程共享全局变量" class="headerlink" title="1、多线程共享全局变量"></a>1、多线程共享全局变量</h3><p>线程是进程的执行单元，进程是系统分配资源的最小单位，所以在同一个进程中的多线程是共享资源的。</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">python</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_number</span><span class="params">(threadName)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> number</span><br><span class="line">    print(<span class="string">f'<span class="subst">&#123;threadName&#125;</span>: The number is <span class="subst">&#123;number&#125;</span>.'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_number</span><span class="params">(threadName)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> number</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>):</span><br><span class="line">        number += <span class="number">1</span></span><br><span class="line">    print(<span class="string">f'<span class="subst">&#123;threadName&#125;</span>: The number is <span class="subst">&#123;number&#125;</span>.'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 创建全局变量</span></span><br><span class="line">    number = <span class="number">6</span></span><br><span class="line">    <span class="comment"># 创建两个新线程</span></span><br><span class="line">    thread1 = threading.Thread(target=add_number, args=(<span class="string">"Thread-1"</span>,))</span><br><span class="line">    thread2 = threading.Thread(target=print_number, args=(<span class="string">"Thread-2"</span>,))</span><br><span class="line">    thread1.start()</span><br><span class="line">    time.sleep(<span class="number">1</span>) </span><br><span class="line">    thread2.start()</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line">    print(<span class="string">"Main thread end."</span>)</span><br></pre></td></tr></table></figure></div>
+
+<pre><code>Thread-1: The number is 8.
+Thread-2: The number is 8.
+Main thread end.</code></pre><h3 id="2、线程同步"><a href="#2、线程同步" class="headerlink" title="2、线程同步"></a>2、线程同步</h3><p>如果多个线程共同对某个数据修改，则可能出现不可预料的结果，为了保证数据的正确性，需要对多个线程进行同步。</p>
+<p>使用 Thread 对象的 Lock 和 Rlock 可以实现简单的线程同步，这两个对象都有 acquire 方法和 release 方法，对于那些需要每次只允许一个线程操作的数据，可以将其操作放到 acquire 和 release 方法之间。如下：</p>
+<p>有两个变量a和b，两个线程①和②，线程①的作用是改变a的值，线程②的作用是改变b的值，这样不管这两个线程怎么运行，a和b的值都不互相干扰。但是如果线程①和线程②的作用都是操作同一个变量c，我们为了要保证c的值得精确改动，我们一般要先让线程①去操作c，线程①执行完之后再让线程②去操作c，在这个过程中，线程①操作的时候线程②是不允许对c做改动的，这个时候我们就用Threading库中的线程锁了。对于变量c就像厕所单间，一个人进去之后要把门锁了（acquire()），以确保第二个人不能进去，等第一个人出来之后（release()），第二个人才能进去，这个锁就是厕所门锁，把厕所单间锁起来不让其他人可以操作。同理，python中的线程锁，就是线程①把变量c锁起来，等线程①操作完c之后再release，然后接着线程②就acquire，线程②操作完c之后也会release，这就是线程锁。</p>
+<h3 id="3、互斥锁-Lock"><a href="#3、互斥锁-Lock" class="headerlink" title="3、互斥锁 (Lock)"></a>3、互斥锁 (Lock)</h3><p>由于线程之间是进行随机调度，如果有多个线程同时操作一个对象，如果没有很好地保护该对象，会造成程序结果的不可预期，我们也称此为“线程不安全”，为了防止这样的情况发生，就出现了互斥锁(Lock)</p>
+<p>Lock() 加载线程的锁对象，是一个基本的锁对象，一次只能一个锁定，其余锁请求，需等待锁释放后才能获取。</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">python</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myThread</span><span class="params">(threading.Thread)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, threadName)</span>:</span></span><br><span class="line">        threading.Thread.__init__(self)</span><br><span class="line">        self.threadName = threadName</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(self.threadName + <span class="string">" start."</span>)</span><br><span class="line">        <span class="comment"># 获取锁，用于线程同步</span></span><br><span class="line">        threadLock.acquire()</span><br><span class="line">        print_number(self.threadName)</span><br><span class="line">        <span class="comment"># 释放锁，开启下一个线程</span></span><br><span class="line">        threadLock.release()</span><br><span class="line">        print(self.threadName + <span class="string">" end."</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_number</span><span class="params">(threadName)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> number</span><br><span class="line">    number += <span class="number">6</span></span><br><span class="line">    print(<span class="string">f'<span class="subst">&#123;threadName&#125;</span>: Thr number is <span class="subst">&#123;number&#125;</span>.'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    number = <span class="number">6</span></span><br><span class="line">    threadLock = threading.Lock()</span><br><span class="line">    threads = []</span><br><span class="line">    <span class="comment"># 创建多个新线程</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">6</span>):</span><br><span class="line">        thread = myThread(<span class="string">f'Thread-<span class="subst">&#123;i&#125;</span>'</span>)</span><br><span class="line">        threads.append(thread)</span><br><span class="line">        thread.start()</span><br><span class="line">    <span class="keyword">for</span> thread <span class="keyword">in</span> threads:</span><br><span class="line">        thread.join()</span><br><span class="line">    print(<span class="string">"Main thread end."</span>)</span><br></pre></td></tr></table></figure></div>
+
+<pre><code>Thread-0 start.
+Thread-0: Thr number is 12.
+Thread-0 end.
+Thread-1 start.
+Thread-1: Thr number is 18.
+Thread-1 end.
+Thread-2 start.
+Thread-2: Thr number is 24.
+Thread-2 end.
+Thread-3 start.
+Thread-3: Thr number is 30.
+Thread-3 end.
+Thread-4 start.
+Thread-4: Thr number is 36.
+Thread-4 end.
+Thread-5 start.
+Thread-5: Thr number is 42.
+Thread-5 end.
+Main thread end.</code></pre><h3 id="4、递归锁-RLock"><a href="#4、递归锁-RLock" class="headerlink" title="4、递归锁 (RLock)"></a>4、递归锁 (RLock)</h3><p>RLcok类的用法和Lock类一模一样，但它支持嵌套，在多个锁没有释放的时候一般会使用RLcok类。</p>
+<p>RLock() 多重锁，在同一线程中可用被多次acquire。如果使用RLock，那么acquire和release必须成对出现，调用了n次acquire锁请求，则必须调用n次的release才能在线程中释放锁对象。</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">python</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myThread</span><span class="params">(threading.Thread)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, threadName)</span>:</span></span><br><span class="line">        threading.Thread.__init__(self)</span><br><span class="line">        self.threadName = threadName</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(self.threadName + <span class="string">" start."</span>)</span><br><span class="line">        <span class="comment"># 获取锁，用于线程同步</span></span><br><span class="line">        threadLock.acquire()</span><br><span class="line">        print_number(self.threadName)</span><br><span class="line">        <span class="comment"># 释放锁，开启下一个线程</span></span><br><span class="line">        threadLock.release()</span><br><span class="line">        print(self.threadName + <span class="string">" end."</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_number</span><span class="params">(threadName)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> number</span><br><span class="line">    number += <span class="number">6</span></span><br><span class="line">    print(<span class="string">f'<span class="subst">&#123;threadName&#125;</span>: Thr number is <span class="subst">&#123;number&#125;</span>.'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    number = <span class="number">6</span></span><br><span class="line">    threadLock = threading.RLock()</span><br><span class="line">    threads = []</span><br><span class="line">    <span class="comment"># 创建多个新线程</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">6</span>):</span><br><span class="line">        thread = myThread(<span class="string">f'Thread-<span class="subst">&#123;i&#125;</span>'</span>)</span><br><span class="line">        threads.append(thread)</span><br><span class="line">        thread.start()</span><br><span class="line">    <span class="keyword">for</span> thread <span class="keyword">in</span> threads:</span><br><span class="line">        thread.join()</span><br><span class="line">    print(<span class="string">"Main thread end."</span>)</span><br></pre></td></tr></table></figure></div>
+
+<pre><code>Thread-0 start.
+Thread-0: Thr number is 12.
+Thread-0 end.
+Thread-1 start.
+Thread-1: Thr number is 18.
+Thread-1 end.
+Thread-2 start.
+Thread-2: Thr number is 24.
+Thread-2 end.
+Thread-3 start.
+Thread-3: Thr number is 30.
+Thread-3 end.
+Thread-4 start.
+Thread-4: Thr number is 36.
+Thread-4 end.
+Thread-5 start.
+Thread-5: Thr number is 42.
+Thread-5 end.
+Main thread end.</code></pre><h3 id="5、信号量-BoundedSemaphore"><a href="#5、信号量-BoundedSemaphore" class="headerlink" title="5、信号量 (BoundedSemaphore)"></a>5、信号量 (BoundedSemaphore)</h3><p>互斥锁同时只允许一个线程更改数据，而Semaphore是同时允许一定数量的线程更改数据 ，比如厕所有3个坑，那最多只允许3个人上厕所，后面的人只能等里面有人出来了才能再进去。</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">python</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myThread</span><span class="params">(threading.Thread)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, threadName)</span>:</span></span><br><span class="line">        threading.Thread.__init__(self)</span><br><span class="line">        self.threadName = threadName</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(self.threadName + <span class="string">" start."</span>)</span><br><span class="line">        print_number(self.threadName)</span><br><span class="line">        print(self.threadName + <span class="string">" end."</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_number</span><span class="params">(threadName)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> number</span><br><span class="line">    <span class="comment"># 获取锁，用于线程同步</span></span><br><span class="line">    semaphore.acquire()</span><br><span class="line">    number += <span class="number">6</span></span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line">    <span class="comment"># 释放锁，开启下一个线程</span></span><br><span class="line">    semaphore.release()</span><br><span class="line">    print(<span class="string">f'<span class="subst">&#123;threadName&#125;</span>: Thr number is <span class="subst">&#123;number&#125;</span>.'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    number = <span class="number">6</span></span><br><span class="line">    semaphore = threading.BoundedSemaphore(<span class="number">3</span>)</span><br><span class="line">    threads = []</span><br><span class="line">    <span class="comment"># 创建多个新线程</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">6</span>):</span><br><span class="line">        thread = myThread(<span class="string">f'Thread-<span class="subst">&#123;i&#125;</span>'</span>)</span><br><span class="line">        threads.append(thread)</span><br><span class="line">        thread.start()</span><br><span class="line">    <span class="keyword">for</span> thread <span class="keyword">in</span> threads:</span><br><span class="line">        thread.join()</span><br><span class="line">    print(<span class="string">"Main thread end."</span>)</span><br></pre></td></tr></table></figure></div>
+
+<pre><code>Thread-0 start.
+Thread-1 start.
+Thread-2 start.
+Thread-3 start.
+Thread-4 start.
+Thread-5 start.
+Thread-1: Thr number is 24.
+Thread-0: Thr number is 30.
+Thread-2: Thr number is 30.
+Thread-1 end.
+Thread-0 end.
+Thread-2 end.
+Thread-3: Thr number is 42.
+Thread-3 end.
+Thread-4: Thr number is 42.
+Thread-5: Thr number is 42.
+Thread-5 end.
+Thread-4 end.
+Main thread end.</code></pre><h3 id="6、事件-Event"><a href="#6、事件-Event" class="headerlink" title="6、事件 (Event)"></a>6、事件 (Event)</h3><p>python线程的事件用于主线程控制其他线程的执行，事件是一个简单的线程同步对象，其主要提供以下几个方法：</p>
+<ul>
+<li>clear 将flag设置为“False”</li>
+<li>set 将flag设置为“True”</li>
+<li>is_set 判断是否设置了flag</li>
+<li>wait 会一直监听flag，如果没有检测到flag就一直处于阻塞状态</li>
+</ul>
+<p>事件处理的机制：全局定义了一个“Flag”，当flag值为“False”，那么event.wait()就会阻塞，当flag值为“True”，那么event.wait()便不再阻塞。</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">python</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 利用Event类模拟红绿灯</span></span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lighter</span><span class="params">()</span>:</span></span><br><span class="line">    count = <span class="number">0</span></span><br><span class="line">    <span class="comment"># 初始值为绿灯</span></span><br><span class="line">    event.set()</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="number">5</span> &lt; count &lt;= <span class="number">10</span>:</span><br><span class="line">            <span class="comment"># 红灯，清除标志位</span></span><br><span class="line">            event.clear()</span><br><span class="line">            print(<span class="string">"\33[31;1mred light is on...\033[0m"</span>)</span><br><span class="line">        <span class="keyword">elif</span> count &gt; <span class="number">10</span>:</span><br><span class="line">            <span class="comment"># 绿灯，设置标志位</span></span><br><span class="line">            event.set() </span><br><span class="line">            count = <span class="number">0</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">"\033[32;1mgreen light is on...\033[0m"</span>)</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        count += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">car</span><span class="params">(name)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">if</span> event.is_set():</span><br><span class="line">            print(<span class="string">"[%s] running..."</span> % name)</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">"[%s] sees red light, waiting..."</span> % name)</span><br><span class="line">            event.wait()</span><br><span class="line">            print(<span class="string">"[%s] green light is on, start going..."</span> % name)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    event = threading.Event()</span><br><span class="line">    light = threading.Thread(target=lighter, )</span><br><span class="line">    light.start()</span><br><span class="line">    car = threading.Thread(target=car, args=(<span class="string">"Car"</span>,))</span><br><span class="line">    car.start()</span><br></pre></td></tr></table></figure></div>
+
+<pre><code>green light is on...
+[Car] running...
+green light is on...
+[Car] running...
+green light is on...
+[Car] running...
+[Car] running...
+green light is on...
+green light is on...
+[Car] running...
+[Car] running...
+green light is on...
+red light is on...
+[Car] sees red light, waiting...
+red light is on...
+red light is on...
+red light is on...
+red light is on...
+[Car] green light is on, start going...
+[Car] running...
+green light is on...
+[Car] running...
+[Car] running...
+green light is on...
+green light is on...
+[Car] running... 
+green light is on...
+[Car] running...
+......</code></pre><h2 id="四、线程优先级队列"><a href="#四、线程优先级队列" class="headerlink" title="四、线程优先级队列"></a>四、线程优先级队列</h2><p>Python 的 Queue 模块中提供了同步的、线程安全的队列类，包括FIFO（先入先出）队列Queue，LIFO（后入先出）队列LifoQueue，和优先级队列 PriorityQueue。</p>
+<p>这些队列都实现了锁原语，能够在多线程中直接使用，可以使用队列来实现线程间的同步。</p>
+<p>Queue 模块中的常用方法：</p>
+<ul>
+<li>Queue.qsize() 返回队列的大小</li>
+<li>Queue.empty() 如果队列为空，返回True,反之False</li>
+<li>Queue.full() 如果队列满了，返回True,反之False</li>
+<li>Queue.full 与 maxsize 大小对应</li>
+<li>Queue.get([block[, timeout]])获取队列，timeout等待时间</li>
+<li>Queue.get_nowait() 相当Queue.get(False)</li>
+<li>Queue.put(item) 写入队列，timeout等待时间</li>
+<li>Queue.put_nowait(item) 相当Queue.put(item, False)</li>
+<li>Queue.task_done() 在完成一项工作之后，Queue.task_done()函数向任务已经完成的队列发送一个信号</li>
+<li>Queue.join() 实际上意味着等到队列为空，再执行别的操作</li>
+</ul>
+<h3 id="1、FIFO-先入先出"><a href="#1、FIFO-先入先出" class="headerlink" title="1、FIFO (先入先出)"></a>1、FIFO (先入先出)</h3><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">python</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> queue</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    queue = queue.Queue()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">        queue.put(i + <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">        value = queue.get()</span><br><span class="line">        print(<span class="string">f'The <span class="subst">&#123;i + <span class="number">1</span>&#125;</span>\'s number is <span class="subst">&#123;value&#125;</span>.'</span>)</span><br></pre></td></tr></table></figure></div>
+
+<pre><code>The 1&apos;s number is 1.
+The 2&apos;s number is 2.
+The 3&apos;s number is 3.
+The 4&apos;s number is 4.
+The 5&apos;s number is 5.</code></pre><h3 id="2、LIFO-后入先出"><a href="#2、LIFO-后入先出" class="headerlink" title="2、LIFO (后入先出)"></a>2、LIFO (后入先出)</h3><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">python</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> queue</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    queue = queue.LifoQueue()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">        queue.put(i + <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">        value = queue.get()</span><br><span class="line">        print(<span class="string">f'The <span class="subst">&#123;i + <span class="number">1</span>&#125;</span>\'s number is <span class="subst">&#123;value&#125;</span>.'</span>)</span><br></pre></td></tr></table></figure></div>
+
+
+<pre><code>The 1&apos;s number is 5.
+The 2&apos;s number is 4.
+The 3&apos;s number is 3.
+The 4&apos;s number is 2.
+The 5&apos;s number is 1.</code></pre><h3 id="3、Priority-数据可设置优先级"><a href="#3、Priority-数据可设置优先级" class="headerlink" title="3、Priority (数据可设置优先级)"></a>3、Priority (数据可设置优先级)</h3><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">python</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> queue</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    queue = queue.PriorityQueue()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>):</span><br><span class="line">        queue.put((i + <span class="number">1</span>, <span class="string">'a'</span>))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>):</span><br><span class="line">        queue.put((i + <span class="number">1</span>, <span class="string">'b'</span>))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">8</span>):</span><br><span class="line">        value = queue.get()</span><br><span class="line">        print(<span class="string">f'The <span class="subst">&#123;i + <span class="number">1</span>&#125;</span>\'s number is <span class="subst">&#123;value&#125;</span>.'</span>)</span><br></pre></td></tr></table></figure></div>
+
+<pre><code>The 1&apos;s number is (1, &apos;a&apos;).
+The 2&apos;s number is (1, &apos;b&apos;).
+The 3&apos;s number is (2, &apos;a&apos;).
+The 4&apos;s number is (2, &apos;b&apos;).
+The 5&apos;s number is (3, &apos;a&apos;).
+The 6&apos;s number is (3, &apos;b&apos;).
+The 7&apos;s number is (4, &apos;a&apos;).
+The 8&apos;s number is (4, &apos;b&apos;).</code></pre><h3 id="4、queue-模块"><a href="#4、queue-模块" class="headerlink" title="4、queue 模块"></a>4、queue 模块</h3><h4 id="maxsize"><a href="#maxsize" class="headerlink" title="maxsize"></a>maxsize</h4><p>maxsize 是实例化 Queue 类时的一个参数，默认为0，Queue(maxsize=0) 可以控制队列中数据的容量。</p>
+<h4 id="put"><a href="#put" class="headerlink" title="put"></a>put</h4><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">python</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Queue.put(block=<span class="literal">True</span>, timeout=<span class="literal">None</span>)</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><p><code>block</code> 用于设置是否阻塞，Queue.put(block=True, timeout=None)</p>
+</li>
+<li><p><code>timeout</code> 用于设置阻塞时等待时长</p>
+</li>
+</ul>
+<h5 id="①阻塞"><a href="#①阻塞" class="headerlink" title="①阻塞"></a>①阻塞</h5><p>当队列满了之后，put 就会阻塞，一直等待队列不再满时向里面添加数据</p>
+<h5 id="②不阻塞"><a href="#②不阻塞" class="headerlink" title="②不阻塞"></a>②不阻塞</h5><p>当队列满了之后，如果设置 put 不阻塞，或者等待时长到了之后会报错：<code>queue.Full</code></p>
+<h4 id="get"><a href="#get" class="headerlink" title="get"></a>get</h4><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">python</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Queue.get(block=<span class="literal">True</span>, timeout=<span class="literal">None</span>)</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><p><code>block</code> 用于设置是否阻塞，put_nowait() = put(block=False)</p>
+</li>
+<li><p><code>timeout</code> 用于设置阻塞时等待时长</p>
+</li>
+</ul>
+<h5 id="①阻塞-1"><a href="#①阻塞-1" class="headerlink" title="①阻塞"></a>①阻塞</h5><p>当队列空了之后，get 就会阻塞，一直等待队列中有数据后再获取数据</p>
+<h5 id="②不阻塞-1"><a href="#②不阻塞-1" class="headerlink" title="②不阻塞"></a>②不阻塞</h5><p>当队列空了之后，如果设置 get 不阻塞，或者等待时长到了之后会报错：<code>_queue.Empty</code></p>
+<h4 id="full-amp-empty"><a href="#full-amp-empty" class="headerlink" title="full &amp; empty"></a>full &amp; empty</h4><p><code>Queue.empty()</code>/<code>Queue.full()</code> 用于判断队列是否为空、满，尽量使用 <code>qsize</code> 代替。</p>
+<h4 id="qsize"><a href="#qsize" class="headerlink" title="qsize"></a>qsize</h4><p><code>Queue.qsize()</code> 用于获取队列中大致的数据量</p>
+<blockquote>
+<p>在多线程的情况下不可靠，因为在获取 qsize 时，其他线程可能又对队列进行操作了。 </p>
+</blockquote>
+<h4 id="join"><a href="#join" class="headerlink" title="join"></a>join</h4><p><code>join</code> 会在队列存在未完成任务时阻塞，等待队列无未完成任务，需要配合 <code>task_done</code> 使用。</p>
+<h4 id="task-done"><a href="#task-done" class="headerlink" title="task_done"></a>task_done</h4><p>执行一次 <code>put</code> 会让未完成任务 +1 ，但是执行 <code>get</code> 并不会让未完成任务 -1 ，需要使用 <code>task_done</code> 让未完成任务 -1 ，否则 <code>join</code> 就无法判断，队列为空时执行会报错：<code>ValueError: task_done() called too many times</code>。</p>
+<h3 id="5、队列示例"><a href="#5、队列示例" class="headerlink" title="5、队列示例"></a>5、队列示例</h3><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">python</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> queue</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">put</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">for</span> count <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">        q.put(count)</span><br><span class="line">        print(<span class="string">f'Put No.<span class="subst">&#123;count&#125;</span>'</span>)</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        print(<span class="string">f'Get No.<span class="subst">&#123;q.get()&#125;</span>'</span>)</span><br><span class="line">        time.sleep(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    q = queue.Queue(maxsize=<span class="number">5</span>)</span><br><span class="line">    thread1 = threading.Thread(target=put,)</span><br><span class="line">    thread2 = threading.Thread(target=get,)</span><br><span class="line">    thread1.start()</span><br><span class="line">    thread2.start()</span><br></pre></td></tr></table></figure></div>
+
+<pre><code>Put No.0
+Get No.0
+Put No.1
+Put No.2
+Get No.1
+Put No.3
+Get No.2
+Put No.4
+Put No.5
+Get No.3
+Put No.6
+Put No.7
+Get No.4
+Put No.8
+Put No.9
+Get No.5
+Get No.6
+Get No.7
+Get No.8
+Get No.9</code></pre><h2 id="五、GIL全局解释器锁"><a href="#五、GIL全局解释器锁" class="headerlink" title="五、GIL全局解释器锁"></a>五、GIL全局解释器锁</h2><p>在非python环境中，单核情况下，同时只能有一个任务执行，多核时可以支持多个线程同时执行；但是在python中，无论有多少核，同时只能执行一个线程。究其原因，这就是由于GIL的存在导致的。</p>
+<p>GIL的全称是<code>Global Interpreter Lock</code>（全局解释器锁），来源是python设计之初的考虑，为了数据安全所做的决定。某个线程想要执行，必须先拿到GIL，我们可以把GIL看作是“通行证”，并且在一个python进程中，GIL只有一个。拿不到通行证的线程，就不允许进入CPU执行。GIL只在<code>cpython</code>中才有，因为<code>cpython</code>调用的是C语言的原生线程，所以他不能直接操作CPU，只能利用GIL保证同一时间只能有一个线程拿到数据。而在<code>pypy</code>和<code>jpython</code>中是没有GIL的。</p>
+<h3 id="Python多线程的工作过程"><a href="#Python多线程的工作过程" class="headerlink" title="Python多线程的工作过程"></a>Python多线程的工作过程</h3><p>python在使用多线程的时候，调用的是C语言的原生线程。</p>
+<ul>
+<li>拿到公共数据</li>
+<li>申请GIL</li>
+<li>python解释器调用os原生线程</li>
+<li>os操作CPU执行运算</li>
+<li>当该线程执行时间到后，无论运算是否已经执行完，GIL都被要求释放</li>
+<li>进而由其他进程重复上面的过程</li>
+<li>等其他进程执行完后，又会切换到之前的线程（从他记录的上下文继续执行），整个过程是每个线程执行自己的运算，当执行时间到就进行切换（context switch）。</li>
+</ul>
+<h3 id="python针对不同类型的代码执行效率也是不同"><a href="#python针对不同类型的代码执行效率也是不同" class="headerlink" title="python针对不同类型的代码执行效率也是不同"></a>python针对不同类型的代码执行效率也是不同</h3><p>1、CPU密集型代码(各种循环处理、计算等等)，在这种情况下，由于计算工作多，<code>ticks</code>计数很快就会达到阈值，然后触发GIL的释放与再竞争（多个线程来回切换当然是需要消耗资源的），所以python下的多线程对CPU密集型代码并不友好。</p>
+<p>2、IO密集型代码(文件处理、网络爬虫等涉及文件读写的操作)，多线程能够有效提升效率(单线程下有IO操作会进行IO等待，造成不必要的时间浪费，而开启多线程能在线程A等待时，自动切换到线程B，可以不浪费CPU的资源，从而能提升程序执行效率)。所以python的多线程对IO密集型代码比较友好。</p>
+<h3 id="使用建议"><a href="#使用建议" class="headerlink" title="使用建议"></a>使用建议</h3><p>python下想要充分利用多核CPU，就用多进程。因为每个进程有各自独立的GIL，互不干扰，这样就可以真正意义上的并行执行，在python中，多进程的执行效率优于多线程（仅仅针对多核CPU而言）。</p>
+<h3 id="GIL在python中的版本差异"><a href="#GIL在python中的版本差异" class="headerlink" title="GIL在python中的版本差异"></a>GIL在python中的版本差异</h3><p>1、在python2.x里，GIL的释放逻辑是当前线程遇见IO操作或者ticks计数达到100时进行释放。（ticks可以看作是python自身的一个计数器，专门做用于GIL，每次释放后归零，这个计数可以通过sys.setcheckinterval 来调整）。而每次释放GIL锁，线程进行锁竞争、切换线程，会消耗资源。并且由于GIL锁存在，python里一个进程永远只能同时执行一个线程(拿到GIL的线程才能执行)，这就是为什么在多核CPU上，python的多线程效率并不高。</p>
+<p>2、在python3.x中，GIL不使用ticks计数，改为使用计时器（执行时间达到阈值后，当前线程释放GIL），这样对CPU密集型程序更加友好，但依然没有解决GIL导致的同一时间只能执行一个线程的问题，所以效率依然不尽如人意。</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Pluto</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://blog.plutozone.site/2020/07/30/Python-%E5%A4%9A%E7%BA%BF%E7%A8%8B/">https://blog.plutozone.site/2020/07/30/Python-%E5%A4%9A%E7%BA%BF%E7%A8%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.plutozone.site">Pluto</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/python/">python    </a><a class="post-meta__tags" href="/tags/thread%E5%BA%93/">_thread库    </a><a class="post-meta__tags" href="/tags/threading%E5%BA%93/">threading库    </a><a class="post-meta__tags" href="/tags/queue%E5%BA%93/">queue库    </a><a class="post-meta__tags" href="/tags/GIL%E5%85%A8%E5%B1%80%E8%A7%A3%E9%87%8A%E5%99%A8%E9%94%81/">GIL全局解释器锁    </a><a class="post-meta__tags" href="/tags/%E9%98%9F%E5%88%97/">队列    </a><a class="post-meta__tags" href="/tags/%E7%BA%BF%E7%A8%8B%E9%94%81/">线程锁    </a><a class="post-meta__tags" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程    </a></div><div class="post_share"><div class="social-share" data-image="http://image.tooltool.club/v2-6b6a81f7b9f65ac8120691c0865a2e88_r.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/wechat.jpg" alt="微信"><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/alipay.jpg" alt="支付宝"><div class="post-qr-code__desc">支付宝</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/07/31/%E5%A5%BD%E7%94%A8%E7%9A%84%E5%9B%BE%E5%BA%8A%E4%B8%8A%E4%BC%A0%E5%B7%A5%E5%85%B7-Picgo/"><img class="prev_cover lazyload" data-src="http://image.tooltool.club/v2-e38d505b44533713b9c75ebb1cf182f0_r.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="label">上一篇</div><div class="prev_info"><span>好用的图床上传工具-Picgo</span></div></a></div><div class="next-post pull_right"><a href="/2020/07/29/Python-%E7%88%AC%E5%8F%96%E5%B1%B1%E4%B8%9C%E5%A4%A7%E5%AD%A6%E5%8C%BB%E5%AD%A6%E9%A2%98%E5%BA%93/"><img class="next_cover lazyload" data-src="http://image.tooltool.club/v2-b9732c0e2d106be82c6410d22c02a375_r.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>Python 爬取山东大学医学题库</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/07/22/用两个栈实现队列/" title="用两个栈实现队列"><img class="relatedPosts_cover lazyload"data-src="http://image.tooltool.club/20200723222823.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-07-22</div><div class="relatedPosts_title">用两个栈实现队列</div></div></a></div><div class="relatedPosts_item"><a href="/2020/07/29/Python-爬取山东大学医学题库/" title="Python 爬取山东大学医学题库"><img class="relatedPosts_cover lazyload"data-src="http://image.tooltool.club/v2-b9732c0e2d106be82c6410d22c02a375_r.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-07-29</div><div class="relatedPosts_title">Python 爬取山东大学医学题库</div></div></a></div><div class="relatedPosts_item"><a href="/2020/07/29/Python-QQ空间模拟登陆/" title="Python QQ空间模拟登陆"><img class="relatedPosts_cover lazyload"data-src="http://image.tooltool.club/v2-7726f2ea77aaec1c12db70d58050d48b_r.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-07-29</div><div class="relatedPosts_title">Python QQ空间模拟登陆</div></div></a></div><div class="relatedPosts_item"><a href="/2020/07/29/Python-爬取QQ空间相册/" title="Python 爬取QQ空间相册"><img class="relatedPosts_cover lazyload"data-src="http://image.tooltool.club/v2-c906205ae6edddf81a1bfc3c18b88fca_r.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-07-29</div><div class="relatedPosts_title">Python 爬取QQ空间相册</div></div></a></div><div class="relatedPosts_item"><a href="/2020/07/29/Python-爬取东北大学高数题库/" title="Python 爬取东北大学高数题库"><img class="relatedPosts_cover lazyload"data-src="http://image.tooltool.club/v2-a26ea5deb8362b6629621705ce1db47f_r.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-07-29</div><div class="relatedPosts_title">Python 爬取东北大学高数题库</div></div></a></div><div class="relatedPosts_item"><a href="/2020/07/29/Python-文件I-O/" title="Python 文件I/O"><img class="relatedPosts_cover lazyload"data-src="http://image.tooltool.club/v2-89078618c91da5cfd33fa28c5ea69b78_r.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-07-29</div><div class="relatedPosts_title">Python 文件I/O</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = false == true ? true : false;
+var verify = false == true ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'abLIFzEz1k6UK8G7P2nHY3S5-gzGzoHsz',
+  appKey:'NGuzgKdo2PByN65R7fG5dtFk',
+  placeholder:'Please leave your footprints',
+  avatar:'monsterid',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang:'en',
+  recordIP: true
+});</script></div></div></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By Pluto</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script id="canvas_nest" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/gh/jerryc127/butterfly_cdn@2.1.0/js/canvas-nest.js"></script><script src="https://cdn.jsdelivr.net/npm/activate-power-mode/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true; 
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script><script src="https://cdn.jsdelivr.net/gh/jerryc127/butterfly_cdn@2.1.0/js/click_heart.js"></script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
