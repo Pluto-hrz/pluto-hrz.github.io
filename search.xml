@@ -4,93 +4,6 @@
   
     
     <entry>
-      <title>Python 人脸融合</title>
-      <link href="/2020/09/18/Python-%E4%BA%BA%E8%84%B8%E8%9E%8D%E5%90%88/"/>
-      <url>/2020/09/18/Python-%E4%BA%BA%E8%84%B8%E8%9E%8D%E5%90%88/</url>
-      
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
-      
-      
-      <categories>
-          
-          <category> Python </category>
-          
-          <category> API调用 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Python </tag>
-            
-            <tag> 人脸融合 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Python 颜值打分</title>
-      <link href="/2020/09/17/Python-%E9%A2%9C%E5%80%BC%E6%89%93%E5%88%86/"/>
-      <url>/2020/09/17/Python-%E9%A2%9C%E5%80%BC%E6%89%93%E5%88%86/</url>
-      
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
-      
-      
-      <categories>
-          
-          <category> Python </category>
-          
-          <category> API调用 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Python </tag>
-            
-            <tag> 颜值打分 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Python 人脸对比</title>
-      <link href="/2020/09/16/Python-%E4%BA%BA%E8%84%B8%E5%AF%B9%E6%AF%94/"/>
-      <url>/2020/09/16/Python-%E4%BA%BA%E8%84%B8%E5%AF%B9%E6%AF%94/</url>
-      
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
-      
-      
-      <categories>
-          
-          <category> Python </category>
-          
-          <category> API调用 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Python </tag>
-            
-            <tag> 人脸对比 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Python 英汉互译</title>
       <link href="/2020/09/15/Python-%E8%8B%B1%E6%B1%89%E4%BA%92%E8%AF%91/"/>
       <url>/2020/09/15/Python-%E8%8B%B1%E6%B1%89%E4%BA%92%E8%AF%91/</url>
@@ -724,11 +637,11 @@
             
             <tag> python </tag>
             
-            <tag> 数组 </tag>
-            
             <tag> 查找 </tag>
             
             <tag> Algorithm </tag>
+            
+            <tag> 数组 </tag>
             
             <tag> 编程基础 </tag>
             
@@ -831,9 +744,9 @@
             
             <tag> python </tag>
             
-            <tag> 数组 </tag>
-            
             <tag> Algorithm </tag>
+            
+            <tag> 数组 </tag>
             
             <tag> 编程基础 </tag>
             
@@ -866,11 +779,11 @@
             
             <tag> python </tag>
             
-            <tag> 数组 </tag>
-            
             <tag> 字符串 </tag>
             
             <tag> Algorithm </tag>
+            
+            <tag> 数组 </tag>
             
             <tag> 编程基础 </tag>
             
@@ -901,11 +814,11 @@
             
             <tag> python </tag>
             
-            <tag> 数组 </tag>
-            
             <tag> 查找 </tag>
             
             <tag> Algorithm </tag>
+            
+            <tag> 数组 </tag>
             
             <tag> 编程基础 </tag>
             
@@ -1613,9 +1526,9 @@
             
             <tag> 函数 </tag>
             
-            <tag> Python </tag>
-            
             <tag> Web开发 </tag>
+            
+            <tag> Python </tag>
             
             <tag> 闭包 </tag>
             
@@ -1650,9 +1563,9 @@
             
             <tag> Django </tag>
             
-            <tag> Python </tag>
-            
             <tag> Web开发 </tag>
+            
+            <tag> Python </tag>
             
             <tag> HTTP </tag>
             
@@ -1687,9 +1600,9 @@
             
             <tag> Django </tag>
             
-            <tag> Python </tag>
-            
             <tag> Web开发 </tag>
+            
+            <tag> Python </tag>
             
             <tag> Cookie </tag>
             
@@ -2037,7 +1950,7 @@
       <link href="/2020/03/08/1%E3%80%81%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84/"/>
       <url>/2020/03/08/1%E3%80%81%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84/</url>
       
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="第一步：登录远程服务器"><a href="#第一步：登录远程服务器" class="headerlink" title="第一步：登录远程服务器"></a>第一步：登录远程服务器</h2><h5 id="方法一：在浏览器进行登录"><a href="#方法一：在浏览器进行登录" class="headerlink" title="方法一：在浏览器进行登录"></a>方法一：在浏览器进行登录</h5><ul><li>在实例列表中找到相应的服务器，然后在远程连接中选择VNC打开管理终端。<a href="http://image.tooltool.club/19858366-f441fcc66c428d7e.png" data-fancybox="group" data-caption="实例列表" class="fancybox"><img alt="实例列表" title="实例列表" data-src="http://image.tooltool.club/19858366-f441fcc66c428d7e.png" class="lazyload"></a></li><li>打开管理终端后，记住初始密码，并输入初始密码进入管理终端，输入账号root再输入密码即可以root用户的身份登录远程服务器，最后可以使用命令<code>exit</code>退出登录。<a href="http://image.tooltool.club/19858366-155a9e3744457cbd.png" data-fancybox="group" data-caption="浏览器登录远程服务器" class="fancybox"><img alt="浏览器登录远程服务器" title="浏览器登录远程服务器" data-src="http://image.tooltool.club/19858366-155a9e3744457cbd.png" class="lazyload"></a></li></ul><h5 id="方法二：在本地进行登录-需要查看电脑是否安装OpenSSH客户端"><a href="#方法二：在本地进行登录-需要查看电脑是否安装OpenSSH客户端" class="headerlink" title="方法二：在本地进行登录(需要查看电脑是否安装OpenSSH客户端)"></a>方法二：在本地进行登录(需要<a href="https://www.jianshu.com/p/efa0e0d71637" target="_blank" rel="noopener">查看电脑是否安装OpenSSH客户端</a>)</h5><ul><li>按住键盘<code>win + R</code>键然后输入<code>powershell</code>进入PowerShell输入<code>ssh root@你的公网ip</code>然后输入密码即可以root用户的身份登录远程服务器。<a href="http://image.tooltool.club/19858366-82ef2059df2bdd48.png" data-fancybox="group" data-caption="本地登录远程服务器" class="fancybox"><img alt="本地登录远程服务器" title="本地登录远程服务器" data-src="http://image.tooltool.club/19858366-82ef2059df2bdd48.png" class="lazyload"></a></li></ul><h2 id="第二步：创建用户和组"><a href="#第二步：创建用户和组" class="headerlink" title="第二步：创建用户和组"></a>第二步：创建用户和组</h2><ul><li>通过命令<code>groupadd adminuser</code>创建adminuser组。</li><li>然后通过命令<code>useradd learn -g adminuser</code>创建用户learn并将用户learn添加至adminuser组中。</li><li>最后通过命令<code>passwd learn</code>进行用户learn密码的设置，输入两遍密码后，密码便设置完成。</li><li>最后使用命令<code>exit</code>退出登录，然后登录新的用户进行登录。<a href="http://image.tooltool.club/19858366-6d3a61059bc68b95.png" data-fancybox="group" data-caption="创建用户和组" class="fancybox"><img alt="创建用户和组" title="创建用户和组" data-src="http://image.tooltool.club/19858366-6d3a61059bc68b95.png" class="lazyload"></a></li></ul><h2 id="第三步：修改新用户的权限-使用root用户操作"><a href="#第三步：修改新用户的权限-使用root用户操作" class="headerlink" title="第三步：修改新用户的权限(使用root用户操作)"></a>第三步：修改新用户的权限(使用root用户操作)</h2><ul><li><p>首先输入命令<code>cd /etc</code>切换路径至<code>/etc</code>路径下，并通过ls命令显示该路径文件夹下的所有内容，然后通过命令<code>vim sudoers</code>进入<code>sudoers</code>文件。<a href="http://image.tooltool.club/19858366-ff06ef6da5c32d66.png" data-fancybox="group" data-caption="/etc/路径下文件" class="fancybox"><img alt="/etc/路径下文件" title="/etc/路径下文件" data-src="http://image.tooltool.club/19858366-ff06ef6da5c32d66.png" class="lazyload"></a></p></li><li><p>进去<code>sudoers</code>文件后找到root一行，按i键进入编辑模式，在root的下一行添加<code>learn  ALL=(ALL)  ALL</code>这一行代码，然后按<code>Esc</code>退出编辑模式。<a href="http://image.tooltool.club/19858366-e33742d82a06ae35.png" data-fancybox="group" data-caption="sudoers文件" class="fancybox"><img alt="sudoers文件" title="sudoers文件" data-src="http://image.tooltool.club/19858366-e33742d82a06ae35.png" class="lazyload"></a></p></li><li><p>并按<code>Shift + ；</code>键，并输入<code>wq!</code>按回车键即可强制保存并退出文件。<a href="http://image.tooltool.club/19858366-26fcdeb05dec5d1f.png" data-fancybox="group" data-caption="强制保存并退出文件" class="fancybox"><img alt="强制保存并退出文件" title="强制保存并退出文件" data-src="http://image.tooltool.club/19858366-26fcdeb05dec5d1f.png" class="lazyload"></a></p></li></ul><h2 id="第四步：禁止root账号进行ssh远程登录"><a href="#第四步：禁止root账号进行ssh远程登录" class="headerlink" title="第四步：禁止root账号进行ssh远程登录"></a>第四步：禁止root账号进行ssh远程登录</h2><ul><li><p>首先输入命令<code>cd /etc/ssh</code>切换路径至<code>/etc/ssh</code>路径下，并通过<code>ls</code>命令显示该路径文件夹下的所有内容，然后通过命令<code>vim sshd_config</code>进入<code>sshd_config</code>文件。<a href="http://image.tooltool.club/19858366-2613b41264c589f7.png" data-fancybox="group" data-caption="/ssh/路径下文件" class="fancybox"><img alt="/ssh/路径下文件" title="/ssh/路径下文件" data-src="http://image.tooltool.club/19858366-2613b41264c589f7.png" class="lazyload"></a></p></li><li><p>进去<code>sshd_config</code>文件后找到<code>#PermitRootLogin yes</code>一行代码，按i键进入编辑模式，并将本行代码修改为<code>PermitRootLogin no</code>，注意别忘了去掉#号，然后按<code>Esc</code>退出编辑模式。<a href="http://image.tooltool.club/19858366-565288addb51576d.png" data-fancybox="group" data-caption="sshd_config文件" class="fancybox"><img alt="sshd_config文件" title="sshd_config文件" data-src="http://image.tooltool.club/19858366-565288addb51576d.png" class="lazyload"></a></p></li><li><p>并按<code>Shift + ；</code>键，并输入<code>wq</code>按回车键即可保存并退出文件。</p></li><li><p>修改完配置文件后，需要通过命令<code>systemctl restart sshd.service</code>重启sshd服务，然后<code>exit</code>退出登录，重新使用root账号登录会发现登陆请求被拒绝，让我们重新输入密码。重新输入密码后请求仍会被拒绝，所以我们可以使用<code>Ctrl + C</code>键终止当前命令。<a href="http://image.tooltool.club/19858366-d17d9b9790869391.png" data-fancybox="group" data-caption="重启配置文件并测试" class="fancybox"><img alt="重启配置文件并测试" title="重启配置文件并测试" data-src="http://image.tooltool.club/19858366-d17d9b9790869391.png" class="lazyload"></a></p></li><li><p>此时，我们便成功禁止了root账号进行ssh远程登录，但我们仍可以通过我们刚才创建的用户learn进行登录操作。</p></li></ul>]]></content>
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="第一步：登录远程服务器"><a href="#第一步：登录远程服务器" class="headerlink" title="第一步：登录远程服务器"></a>第一步：登录远程服务器</h2><h5 id="方法一：在浏览器进行登录"><a href="#方法一：在浏览器进行登录" class="headerlink" title="方法一：在浏览器进行登录"></a>方法一：在浏览器进行登录</h5><ul><li>在实例列表中找到相应的服务器，然后在远程连接中选择VNC打开管理终端。<a href="https://image.oucer.site/19858366-f441fcc66c428d7e.png" data-fancybox="group" data-caption="实例列表" class="fancybox"><img alt="实例列表" title="实例列表" data-src="https://image.oucer.site/19858366-f441fcc66c428d7e.png" class="lazyload"></a></li><li>打开管理终端后，记住初始密码，并输入初始密码进入管理终端，输入账号root再输入密码即可以root用户的身份登录远程服务器，最后可以使用命令<code>exit</code>退出登录。<a href="https://image.oucer.site/19858366-155a9e3744457cbd.png" data-fancybox="group" data-caption="浏览器登录远程服务器" class="fancybox"><img alt="浏览器登录远程服务器" title="浏览器登录远程服务器" data-src="https://image.oucer.site/19858366-155a9e3744457cbd.png" class="lazyload"></a></li></ul><h5 id="方法二：在本地进行登录-需要查看电脑是否安装OpenSSH客户端"><a href="#方法二：在本地进行登录-需要查看电脑是否安装OpenSSH客户端" class="headerlink" title="方法二：在本地进行登录(需要查看电脑是否安装OpenSSH客户端)"></a>方法二：在本地进行登录(需要<a href="https://www.jianshu.com/p/efa0e0d71637" target="_blank" rel="noopener">查看电脑是否安装OpenSSH客户端</a>)</h5><ul><li>按住键盘<code>win + R</code>键然后输入<code>powershell</code>进入PowerShell输入<code>ssh root@你的公网ip</code>然后输入密码即可以root用户的身份登录远程服务器。<a href="https://image.oucer.site/19858366-82ef2059df2bdd48.png" data-fancybox="group" data-caption="本地登录远程服务器" class="fancybox"><img alt="本地登录远程服务器" title="本地登录远程服务器" data-src="https://image.oucer.site/19858366-82ef2059df2bdd48.png" class="lazyload"></a></li></ul><h2 id="第二步：创建用户和组"><a href="#第二步：创建用户和组" class="headerlink" title="第二步：创建用户和组"></a>第二步：创建用户和组</h2><ul><li>通过命令<code>groupadd adminuser</code>创建adminuser组。</li><li>然后通过命令<code>useradd learn -g adminuser</code>创建用户learn并将用户learn添加至adminuser组中。</li><li>最后通过命令<code>passwd learn</code>进行用户learn密码的设置，输入两遍密码后，密码便设置完成。</li><li>最后使用命令<code>exit</code>退出登录，然后登录新的用户进行登录。<a href="https://image.oucer.site/19858366-6d3a61059bc68b95.png" data-fancybox="group" data-caption="创建用户和组" class="fancybox"><img alt="创建用户和组" title="创建用户和组" data-src="https://image.oucer.site/19858366-6d3a61059bc68b95.png" class="lazyload"></a></li></ul><h2 id="第三步：修改新用户的权限-使用root用户操作"><a href="#第三步：修改新用户的权限-使用root用户操作" class="headerlink" title="第三步：修改新用户的权限(使用root用户操作)"></a>第三步：修改新用户的权限(使用root用户操作)</h2><ul><li><p>首先输入命令<code>cd /etc</code>切换路径至<code>/etc</code>路径下，并通过ls命令显示该路径文件夹下的所有内容，然后通过命令<code>vim sudoers</code>进入<code>sudoers</code>文件。<a href="https://image.oucer.site/19858366-ff06ef6da5c32d66.png" data-fancybox="group" data-caption="/etc/路径下文件" class="fancybox"><img alt="/etc/路径下文件" title="/etc/路径下文件" data-src="https://image.oucer.site/19858366-ff06ef6da5c32d66.png" class="lazyload"></a></p></li><li><p>进去<code>sudoers</code>文件后找到root一行，按i键进入编辑模式，在root的下一行添加<code>learn  ALL=(ALL)  ALL</code>这一行代码，然后按<code>Esc</code>退出编辑模式。<a href="https://image.oucer.site/19858366-e33742d82a06ae35.png" data-fancybox="group" data-caption="sudoers文件" class="fancybox"><img alt="sudoers文件" title="sudoers文件" data-src="https://image.oucer.site/19858366-e33742d82a06ae35.png" class="lazyload"></a></p></li><li><p>并按<code>Shift + ；</code>键，并输入<code>wq!</code>按回车键即可强制保存并退出文件。<a href="https://image.oucer.site/19858366-26fcdeb05dec5d1f.png" data-fancybox="group" data-caption="强制保存并退出文件" class="fancybox"><img alt="强制保存并退出文件" title="强制保存并退出文件" data-src="https://image.oucer.site/19858366-26fcdeb05dec5d1f.png" class="lazyload"></a></p></li></ul><h2 id="第四步：禁止root账号进行ssh远程登录"><a href="#第四步：禁止root账号进行ssh远程登录" class="headerlink" title="第四步：禁止root账号进行ssh远程登录"></a>第四步：禁止root账号进行ssh远程登录</h2><ul><li><p>首先输入命令<code>cd /etc/ssh</code>切换路径至<code>/etc/ssh</code>路径下，并通过<code>ls</code>命令显示该路径文件夹下的所有内容，然后通过命令<code>vim sshd_config</code>进入<code>sshd_config</code>文件。<a href="https://image.oucer.site/19858366-2613b41264c589f7.png" data-fancybox="group" data-caption="/ssh/路径下文件" class="fancybox"><img alt="/ssh/路径下文件" title="/ssh/路径下文件" data-src="https://image.oucer.site/19858366-2613b41264c589f7.png" class="lazyload"></a></p></li><li><p>进去<code>sshd_config</code>文件后找到<code>#PermitRootLogin yes</code>一行代码，按i键进入编辑模式，并将本行代码修改为<code>PermitRootLogin no</code>，注意别忘了去掉#号，然后按<code>Esc</code>退出编辑模式。<a href="https://image.oucer.site/19858366-565288addb51576d.png" data-fancybox="group" data-caption="sshd_config文件" class="fancybox"><img alt="sshd_config文件" title="sshd_config文件" data-src="https://image.oucer.site/19858366-565288addb51576d.png" class="lazyload"></a></p></li><li><p>并按<code>Shift + ；</code>键，并输入<code>wq</code>按回车键即可保存并退出文件。</p></li><li><p>修改完配置文件后，需要通过命令<code>systemctl restart sshd.service</code>重启sshd服务，然后<code>exit</code>退出登录，重新使用root账号登录会发现登陆请求被拒绝，让我们重新输入密码。重新输入密码后请求仍会被拒绝，所以我们可以使用<code>Ctrl + C</code>键终止当前命令。<a href="https://image.oucer.site/19858366-d17d9b9790869391.png" data-fancybox="group" data-caption="重启配置文件并测试" class="fancybox"><img alt="重启配置文件并测试" title="重启配置文件并测试" data-src="https://image.oucer.site/19858366-d17d9b9790869391.png" class="lazyload"></a></p></li><li><p>此时，我们便成功禁止了root账号进行ssh远程登录，但我们仍可以通过我们刚才创建的用户learn进行登录操作。</p></li></ul>]]></content>
       
       
       <categories>
